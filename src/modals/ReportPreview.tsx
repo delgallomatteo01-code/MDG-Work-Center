@@ -35,7 +35,7 @@ export function ReportPreview({ id, onClose }: { id: string; onClose: () => void
               try {
                 // jsPDF caricato solo quando serve
                 const { downloadReportPdf } = await import('../reportActions');
-                downloadReportPdf(r, data.settings.personalName, data.settings.accentSecondary);
+                await downloadReportPdf(r, data.settings.personalName, data.settings.accentSecondary);
               } catch (e) {
                 toast(`PDF non generato: ${(e as Error).message}`, { tone: 'error' });
               }

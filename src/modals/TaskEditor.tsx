@@ -297,7 +297,7 @@ export function TaskEditor({ id, defaults, onClose }: { id: string | null; defau
                     <ul className="file-list">
                       {attachments.map((a) => (
                         <li key={a.id}>
-                          <a href={`/api/attachments?id=${encodeURIComponent(a.id)}`} target="_blank" rel="noopener noreferrer">
+                          <a href={api.attachmentHref(a)} target="_blank" rel="noopener noreferrer">
                             <Paperclip size={14} />
                             <span>{a.fileName}</span>
                             <small>{formatSize(a.size)}</small>

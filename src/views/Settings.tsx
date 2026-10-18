@@ -101,7 +101,7 @@ export function SettingsView() {
             <span className="field-label">Logo personale</span>
             <div className="logo-row">
               <div className="logo-preview">
-                <img src={logoUrl(s.logoUpdatedAt)} alt="Anteprima logo" />
+                <img src={logoUrl(s)} alt="Anteprima logo" />
               </div>
               <div style={{ display: 'grid', gap: 8 }}>
                 <button className="btn btn-sm" onClick={() => fileRef.current?.click()}>

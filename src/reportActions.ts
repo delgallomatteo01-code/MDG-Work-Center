@@ -2,9 +2,10 @@ import { jsPDF } from 'jspdf';
 import type { Report } from '../shared/types';
 import { formatRange } from '../shared/dates';
 import { reportTypeLabel } from '../shared/report';
+import { api } from './api';
 
 /** PDF testuale impaginato A4 multipagina (non uno screenshot), intestazione scura. */
-export function downloadReportPdf(report: Report, personalName: string, accent: string) {
+export async function downloadReportPdf(report: Report, personalName: string, accent: string) {
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const W = 210;
   const H = 297;
@@ -65,5 +66,5 @@ export function downloadReportPdf(report: Report, personalName: string, accent: 
     doc.setTextColor(119, 115, 108);
     doc.text(`${i} / ${pages}`, W - M, H - 8, { align: 'right' });
   }
-  doc.save(`report-${report.periodStart}-${report.periodEnd}.pdf`);
+  await api.saveFile(`report-${report.periodStart}-${report.periodEnd}.pdf`, doc.output('blob'));
 }

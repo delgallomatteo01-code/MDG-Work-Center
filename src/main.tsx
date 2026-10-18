@@ -5,6 +5,7 @@ import { App } from './App';
 import { Login } from './components/Login';
 import { StoreProvider } from './store';
 import type { AppData } from '../shared/types';
+import placeholderLogo from './assets/logo-placeholder.svg';
 import './styles.css';
 
 type State = { phase: 'loading' } | { phase: 'login' } | { phase: 'error'; message: string } | { phase: 'ready'; data: AppData };
@@ -30,7 +31,7 @@ function Root() {
   if (state.phase === 'loading')
     return (
       <div className="splash">
-        <img src="/logo-placeholder.svg" alt="" />
+        <img src={placeholderLogo} alt="" />
         <span>Preparo il tuo workspace…</span>
       </div>
     );

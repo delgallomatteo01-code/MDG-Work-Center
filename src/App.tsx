@@ -20,6 +20,7 @@ import { useStore } from './store';
 import { SECTIONS, cx, initials, isArchivedReport, type Section } from './lib';
 import { formatLongDate, formatRange, todayRome } from '../shared/dates';
 import { reportTypeLabel } from '../shared/report';
+import type { Settings } from '../shared/types';
 import { Dashboard } from './views/Dashboard';
 import { TasksView } from './views/Tasks';
 import { ProjectsView } from './views/Projects';
@@ -42,13 +43,12 @@ const ICONS: Record<Section, typeof LayoutDashboard> = {
   settings: SettingsIcon,
 };
 
-export function logoUrl(updatedAt: string | null) {
-  return `/api/branding/logo?v=${encodeURIComponent(updatedAt ?? 'default')}`;
-}
+export const logoUrl = (s: Settings) => api.logoSrc(s);
 
 function useThemeAndBrand() {
   const { data } = useStore();
-  const { theme, accentPrimary, accentSecondary, logoUpdatedAt } = data.settings;
+  const { theme, accentPrimary, accentSecondary } = data.settings;
+  const logo = logoUrl(data.settings);
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
     const apply = () => {
@@ -71,8 +71,8 @@ function useThemeAndBrand() {
   }, [accentPrimary, accentSecondary]);
   useEffect(() => {
     const link = document.getElementById('favicon') as HTMLLinkElement | null;
-    if (link) link.href = logoUrl(logoUpdatedAt);
-  }, [logoUpdatedAt]);
+    if (link) link.href = logo;
+  }, [logo]);
 }
 
 export function App({ onLogout }: { onLogout: () => void }) {
@@ -113,7 +113,7 @@ export function App({ onLogout }: { onLogout: () => void }) {
       <div className={cx('overlay', menuOpen && 'show')} onClick={() => setMenuOpen(false)} />
       <aside className={cx('sidebar', menuOpen && 'open')} aria-label="Navigazione">
         <div className="brand">
-          <img src={logoUrl(data.settings.logoUpdatedAt)} alt="Logo" />
+          <img src={logoUrl(data.settings)} alt="Logo" />
           <strong>Work center</strong>
           <button className="icon-btn sidebar-close" onClick={() => setMenuOpen(false)} aria-label="Chiudi menu">
             <X size={18} />
@@ -167,9 +167,11 @@ export function App({ onLogout }: { onLogout: () => void }) {
               <strong>{data.settings.personalName}</strong>
               <span title={data.user.email}>{data.user.email}</span>
             </div>
-            <button className="icon-btn" onClick={logout} aria-label="Esci" title="Esci">
-              <LogOut size={17} />
-            </button>
+            {api.canLogout && (
+              <button className="icon-btn" onClick={logout} aria-label="Esci" title="Esci">
+                <LogOut size={17} />
+              </button>
+            )}
           </div>
         </div>
       </aside>

@@ -1,4 +1,4 @@
-import type { AppData } from '../shared/types';
+import type { AppData, Attachment, Settings } from '../shared/types';
 
 export class ApiError extends Error {
   constructor(
@@ -40,6 +40,17 @@ export interface ActionResponse {
 }
 
 export const api = {
+  canLogout: true,
+  logoSrc: (s: Settings) => `/api/branding/logo?v=${encodeURIComponent(s.logoUpdatedAt ?? 'default')}`,
+  attachmentHref: (a: Attachment) => `/api/attachments?id=${encodeURIComponent(a.id)}`,
+  saveFile: async (filename: string, blob: Blob) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  },
   me: () => call('/api/auth/me') as Promise<{ email: string }>,
   login: (email: string, password: string) =>
     call('/api/auth/login', {

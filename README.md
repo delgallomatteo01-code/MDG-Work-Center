@@ -43,6 +43,17 @@ Mettilo dietro HTTPS (reverse proxy, es. Caddy/Nginx, o un PaaS come Render/Fly.
 | `PORT` | Porta HTTP |
 | `COOKIE_SECURE` | `true` dietro HTTPS |
 
+### Versione online su claude.ai (Artifact privato)
+
+`npm run build:artifact` produce `dist-artifact/work-center.html`, un'unica pagina pubblicata come Artifact privato:
+
+- stessa logica del server (`server/workspace.ts`) e stesso schema SQLite, eseguiti nel browser con **sql.js**;
+- persistenza: snapshot SQLite compresso nel database dell'artifact, collezione `wc`, con regola di accesso `read/write: owner` (solo il proprietario; nemmeno un Editor lo legge). Il salvataggio scrive prima i blocchi della nuova revisione e poi il manifest, così un salvataggio interrotto non corrompe i dati; se il salvataggio fallisce la modifica viene annullata e mostrata come errore;
+- allegati e logo negli asset dell'artifact; PDF tramite la funzione download di claude.ai;
+- accesso gestito da claude.ai (nessun logout in-app). Tipi di allegato accettati dallo storage claude.ai: immagini, video, PDF, font, testo/CSV/JSON/Markdown.
+
+`npm run build:artifact && node e2e/artifact-smoke.mjs` verifica la build con un runtime claude.ai simulato.
+
 ## Struttura
 
 ```

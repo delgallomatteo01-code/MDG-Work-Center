@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Lock, LogIn } from 'lucide-react';
 import { api } from '../api';
+import placeholderLogo from '../assets/logo-placeholder.svg';
 
 export function Login({ onSuccess }: { onSuccess: () => void }) {
   const [email, setEmail] = useState('');
@@ -25,7 +26,7 @@ export function Login({ onSuccess }: { onSuccess: () => void }) {
   return (
     <div className="login">
       <div className="login-card">
-        <img src="/logo-placeholder.svg" alt="Logo Work center" />
+        <img src={placeholderLogo} alt="Logo Work center" />
         <div className="eyebrow" style={{ marginTop: 18 }}>
           Workspace personale
         </div>

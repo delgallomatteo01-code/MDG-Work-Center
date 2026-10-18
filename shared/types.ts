@@ -77,6 +77,8 @@ export interface Attachment {
   contentType: string;
   size: number;
   createdAt: string;
+  /** Solo build Artifact: URL dell'asset. */
+  url?: string;
 }
 
 export type ReportSource = 'automatic' | 'manual' | 'custom';
@@ -120,6 +122,8 @@ export interface Settings {
   personalName: string;
   hasCustomLogo: boolean;
   logoUpdatedAt: string | null;
+  /** Solo build Artifact: URL del logo personalizzato o del segnaposto. */
+  logoUrl?: string;
   accentPrimary: string;
   accentSecondary: string;
   theme: ThemeSetting;
