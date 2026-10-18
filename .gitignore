@@ -1,0 +1,8 @@
+node_modules
+dist
+dist-server
+data/*
+!data/.gitkeep
+.env
+*.log
+e2e/screens
