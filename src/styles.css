@@ -704,9 +704,9 @@ h3 {
 }
 .focus-row {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) 170px 76px 84px;
+  grid-template-columns: 26px minmax(0, 1fr) 150px 72px 92px;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   padding: 5px 10px;
   border-radius: 11px;
   cursor: pointer;
@@ -715,6 +715,16 @@ h3 {
 }
 .focus-row:hover {
   background: var(--surface);
+}
+.focus-list {
+  overflow-x: hidden;
+}
+.focus-row > * {
+  min-width: 0;
+}
+.focus-row .due {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .focus-row > .badge {
   justify-self: start;

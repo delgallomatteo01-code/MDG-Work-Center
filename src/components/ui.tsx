@@ -107,8 +107,8 @@ export function dueState(t: Task): 'overdue' | 'soon' | null {
   return null;
 }
 
-export function Due({ task, icon = true }: { task: Task; icon?: boolean }) {
-  if (!task.dueDate) return <span className="due">{icon && <CalendarClock size={13} />}Nessuna scadenza</span>;
+export function Due({ task, icon = true, compact = false }: { task: Task; icon?: boolean; compact?: boolean }) {
+  if (!task.dueDate) return <span className="due">{icon && <CalendarClock size={13} />}{compact ? 'Senza data' : 'Nessuna scadenza'}</span>;
   const st = dueState(task);
   const d = diffDays(task.dueDate, today());
   const label = d === 0 ? 'Oggi' : d === 1 ? 'Domani' : d === -1 ? 'Ieri' : formatDate(task.dueDate, false);

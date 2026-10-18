@@ -128,7 +128,7 @@ export function Dashboard() {
                     </div>
                     <ProgressBar value={taskProgress(t)} color={p?.color ?? 'var(--status-todo)'} />
                     <PriorityBadge priority={t.priority} />
-                    <Due task={t} />
+                    <Due task={t} compact />
                   </div>
                 );
               })}
