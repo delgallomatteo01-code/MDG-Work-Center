@@ -704,7 +704,7 @@ h3 {
 }
 .focus-row {
   display: grid;
-  grid-template-columns: 28px minmax(0, 1fr) 140px auto 82px;
+  grid-template-columns: 28px minmax(0, 1fr) 170px 76px 84px;
   align-items: center;
   gap: 12px;
   padding: 5px 10px;
@@ -715,6 +715,14 @@ h3 {
 }
 .focus-row:hover {
   background: var(--surface);
+}
+.focus-row > .badge {
+  justify-self: start;
+}
+.focus-row .progress > span {
+  width: 34px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 .focus-index {
   font-weight: 800;
@@ -2215,7 +2223,7 @@ table.list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .focus-row {
-    grid-template-columns: 28px minmax(0, 1fr) 110px auto;
+    grid-template-columns: 28px minmax(0, 1fr) 140px 76px;
   }
   .focus-row .due {
     display: none;
@@ -2320,7 +2328,7 @@ table.list {
     grid-template-columns: 1fr 1fr;
   }
   .focus-row {
-    grid-template-columns: 24px minmax(0, 1fr) auto;
+    grid-template-columns: 24px minmax(0, 1fr) 76px;
   }
   .focus-row .progress {
     display: none;
