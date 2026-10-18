@@ -1,8 +1,7 @@
-// Build "Artifact": un unico file HTML pubblicabile su claude.ai.
+// Build "Artifact": pagina HTML + app.js + app.css pubblicati insieme su claude.ai.
 // Sostituisce l'API HTTP con src/artifact/api.ts e i moduli Node del server con varianti browser.
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
-import { viteSingleFile } from 'vite-plugin-singlefile';
 import path from 'node:path';
 
 const root = path.resolve(__dirname);
@@ -25,6 +24,14 @@ function artifactSwaps(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [artifactSwaps(), react(), viteSingleFile()],
-  build: { outDir: 'dist-artifact', assetsInlineLimit: 100_000_000, chunkSizeWarningLimit: 10_000 },
+  plugins: [artifactSwaps(), react()],
+  build: {
+    outDir: 'dist-artifact',
+    assetsInlineLimit: 100_000_000,
+    chunkSizeWarningLimit: 10_000,
+    modulePreload: false,
+    rollupOptions: {
+      output: { inlineDynamicImports: true, entryFileNames: 'app.js', assetFileNames: 'app.[ext]' },
+    },
+  },
 });

@@ -22,8 +22,21 @@ const MOCK = `<script>
   window.claude = { use: (n) => Promise.resolve(caps[n] ?? null) };
 })();
 </script>`;
-const html = fs.readFileSync('dist-artifact/index.html', 'utf8').replace('<head>', '<head>' + MOCK);
-const server = http.createServer((_q, r) => { r.setHeader('content-type', 'text/html'); r.end(html); }).listen(0);
+// Riproduce lo scheletro aggiunto dalla pubblicazione attorno a work-center.html
+const pageHtml = fs.readFileSync('dist-artifact/work-center.html', 'utf8');
+const html = `<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">${MOCK}</head><body>${pageHtml}</body></html>`;
+const types = { js: 'text/javascript', css: 'text/css' };
+const server = http
+  .createServer((q, r) => {
+    const f = q.url.split('?')[0].slice(1);
+    if (f === 'app.js' || f === 'app.css') {
+      r.setHeader('content-type', types[f.split('.').pop()]);
+      return r.end(fs.readFileSync(`dist-artifact/${f}`));
+    }
+    r.setHeader('content-type', 'text/html');
+    r.end(html);
+  })
+  .listen(0);
 const url = `http://localhost:${server.address().port}/`;
 
 const browser = await chromium.launch();
