@@ -136,3 +136,17 @@ export function buildReport(opts: {
 
   return { taskCount: tasks.length, totalMinutes, estimatedMinutes, projectCount: byProject.length, htmlContent, plainText };
 }
+
+/**
+ * Testo da copiare: solo l'elenco numerato dei nomi delle attività completate.
+ * Ricavato dallo snapshot testuale del report, quindi stabile anche per i report già generati.
+ */
+export function reportCopyText(plainText: string): string {
+  const lines = plainText.split('\n');
+  const start = lines.indexOf('ATTIVITÀ COMPLETATE');
+  if (start < 0) return 'Nessuna attività completata in questo periodo.';
+  return lines
+    .slice(start + 1)
+    .filter((l) => /^\d+\. /.test(l))
+    .join('\n');
+}

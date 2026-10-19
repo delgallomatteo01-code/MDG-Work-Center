@@ -1,7 +1,7 @@
 import { Copy, Download } from 'lucide-react';
 import { useStore } from '../store';
 import { formatDateTime, formatRange } from '../../shared/dates';
-import { reportTypeLabel } from '../../shared/report';
+import { reportCopyText, reportTypeLabel } from '../../shared/report';
 import { Modal } from '../components/ui';
 import { copyText } from '../clipboard';
 
@@ -25,9 +25,9 @@ export function ReportPreview({ id, onClose }: { id: string; onClose: () => void
           <span className="spacer" />
           <button
             className="btn"
-            onClick={() => copyText(r.plainText).then(() => toast('Testo del report copiato'), (e: Error) => toast(e.message, { tone: 'error' }))}
+            onClick={() => copyText(reportCopyText(r.plainText)).then(() => toast('Elenco attività copiato'), (e: Error) => toast(e.message, { tone: 'error' }))}
           >
-            <Copy size={15} /> Copia tutto il testo
+            <Copy size={15} /> Copia elenco attività
           </button>
           <button
             className="btn btn-dark"

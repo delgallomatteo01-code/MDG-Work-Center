@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { Archive as ArchiveIcon, Clock, Copy, Eye, FileText, MoreHorizontal, RotateCcw, Search, Trash2, Undo2 } from 'lucide-react';
 import { useStore } from '../store';
 import { formatDate, formatMinutes, formatRange, romeDateOf } from '../../shared/dates';
-import { reportTypeLabel } from '../../shared/report';
+import { reportCopyText, reportTypeLabel } from '../../shared/report';
 import type { Report, Task } from '../../shared/types';
 import { cx, isArchivedReport, projectOf, today } from '../lib';
 import { Empty, PriorityBadge } from '../components/ui';
@@ -186,7 +186,7 @@ function ArchivedReportCard({ report: r }: { report: Report }) {
         </button>
         <button
           className="btn btn-sm"
-          onClick={() => copyText(r.plainText).then(() => toast('Report copiato negli appunti'), (e: Error) => toast(e.message, { tone: 'error' }))}
+          onClick={() => copyText(reportCopyText(r.plainText)).then(() => toast('Elenco attività copiato'), (e: Error) => toast(e.message, { tone: 'error' }))}
         >
           <Copy size={14} /> Copia
         </button>

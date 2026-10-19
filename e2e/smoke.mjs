@@ -181,9 +181,9 @@ const pdfPath = path.join(OUT, download.suggestedFilename());
 await download.saveAs(pdfPath);
 ok(/^report-\d{4}-\d{2}-\d{2}-\d{4}-\d{2}-\d{2}\.pdf$/.test(download.suggestedFilename()), `PDF scaricato (${download.suggestedFilename()})`);
 ok(fs.readFileSync(pdfPath).subarray(0, 4).toString() === '%PDF', 'file PDF valido');
-await page.getByRole('button', { name: 'Copia tutto il testo' }).click();
+await page.getByRole('button', { name: 'Copia elenco attività' }).click();
 const clip = await page.evaluate(() => navigator.clipboard.readText());
-ok(clip.includes('REPORT ATTIVITÀ'), 'copia testo report');
+ok(/^1\. .+/.test(clip) && !clip.includes('REPORT ATTIVITÀ') && !clip.includes('Progetto:'), 'copia: solo elenco numerato delle attività');
 await page.keyboard.press('Escape');
 
 // 9. Impostazioni: tema scuro

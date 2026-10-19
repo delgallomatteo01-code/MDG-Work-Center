@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Archive, CalendarClock, Copy, Eye, FileText, Sparkles, Zap } from 'lucide-react';
 import { useStore } from '../store';
 import { addDays, formatMinutes, formatRange, isValidDate } from '../../shared/dates';
-import { reportTypeLabel } from '../../shared/report';
+import { reportCopyText, reportTypeLabel } from '../../shared/report';
 import type { Report } from '../../shared/types';
 import { cx, today } from '../lib';
 import { Empty } from '../components/ui';
@@ -137,7 +137,7 @@ function ReportCard({ report: r }: { report: Report }) {
         </button>
         <button
           className="btn btn-sm"
-          onClick={() => copyText(r.plainText).then(() => toast('Report copiato negli appunti'), (e: Error) => toast(e.message, { tone: 'error' }))}
+          onClick={() => copyText(reportCopyText(r.plainText)).then(() => toast('Elenco attività copiato'), (e: Error) => toast(e.message, { tone: 'error' }))}
         >
           <Copy size={14} /> Copia report
         </button>

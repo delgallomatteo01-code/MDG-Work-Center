@@ -57,3 +57,15 @@ describe('periodi e ricorrenze', () => {
     expect(dueAutomaticPeriod('monthly', { ...base, today: '2026-02-27', time: '23:00' })).toBeNull();
   });
 });
+
+describe('copia report', () => {
+  it('solo elenco numerato dei nomi', async () => {
+    const { buildReport, reportCopyText } = await import('../shared/report');
+    const t = (title: string, completedAt: string) =>
+      ({ title, projectId: null, client: 'Mkt', workType: 'Banner', completedAt, estimatedMinutes: 60, actualMinutes: 30, notes: 'nota\nsu due righe' }) as never;
+    const r = buildReport({ personalName: 'Matteo', start: '2026-10-12', end: '2026-10-18', tasks: [t('Banner autunno', '2026-10-14T10:00:00Z'), t('Newsletter', '2026-10-13T10:00:00Z')], projects: [] });
+    expect(reportCopyText(r.plainText)).toBe('1. Banner autunno\n2. Newsletter');
+    const empty = buildReport({ personalName: 'Matteo', start: '2026-10-12', end: '2026-10-18', tasks: [], projects: [] });
+    expect(reportCopyText(empty.plainText)).toBe('Nessuna attività completata in questo periodo.');
+  });
+});

@@ -6,6 +6,7 @@ import { addDays, formatDate, monthStart, romeDateOf, weekStart } from '../../sh
 import { STATUS_COLOR, focusTasks, isOpen, isOverdue, projectOf, today as getToday } from '../lib';
 import { Due, Empty, PriorityBadge, ProgressBar, taskProgress } from '../components/ui';
 import { copyText } from '../clipboard';
+import { reportCopyText } from '../../shared/report';
 import type { Report } from '../../shared/types';
 
 export function Dashboard() {
@@ -240,8 +241,8 @@ export function Dashboard() {
           <button
             className="btn btn-sm"
             onClick={() =>
-              copyText(banner.plainText).then(
-                () => toast('Report copiato negli appunti'),
+              copyText(reportCopyText(banner.plainText)).then(
+                () => toast('Elenco attività copiato'),
                 (e: Error) => toast(e.message, { tone: 'error' }),
               )
             }
