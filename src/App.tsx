@@ -31,6 +31,7 @@ import { NotesView } from './views/Notes';
 import { SettingsView } from './views/Settings';
 import { ModalHost } from './modals/ModalHost';
 import { Toasts } from './components/Toasts';
+import { rememberLogo } from './logoCache';
 
 const ICONS: Record<Section, typeof LayoutDashboard> = {
   dashboard: LayoutDashboard,
@@ -72,7 +73,8 @@ function useThemeAndBrand() {
   useEffect(() => {
     const link = document.getElementById('favicon') as HTMLLinkElement | null;
     if (link) link.href = logo;
-  }, [logo]);
+    rememberLogo(data.settings.hasCustomLogo ? logo : null);
+  }, [logo, data.settings.hasCustomLogo]);
 }
 
 export function App({ onLogout }: { onLogout: () => void }) {

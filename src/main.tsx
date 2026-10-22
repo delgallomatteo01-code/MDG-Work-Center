@@ -5,10 +5,14 @@ import { App } from './App';
 import { Login } from './components/Login';
 import { StoreProvider } from './store';
 import type { AppData } from '../shared/types';
-import placeholderLogo from './assets/logo-placeholder.svg';
+import { cachedLogo, onLogoError } from './logoCache';
 import './styles.css';
 
 type State = { phase: 'loading' } | { phase: 'login' } | { phase: 'error'; message: string } | { phase: 'ready'; data: AppData };
+
+// Favicon subito con l'ultimo logo caricato, prima che arrivino i dati.
+const favicon = document.getElementById('favicon') as HTMLLinkElement | null;
+if (favicon) favicon.href = cachedLogo();
 
 function Root() {
   const [state, setState] = useState<State>({ phase: 'loading' });
@@ -31,7 +35,7 @@ function Root() {
   if (state.phase === 'loading')
     return (
       <div className="splash">
-        <img src={placeholderLogo} alt="" />
+        <img src={cachedLogo()} alt="" onError={onLogoError} />
         <span>Preparo il tuo workspace…</span>
       </div>
     );
